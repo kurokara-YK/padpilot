@@ -1,0 +1,12 @@
+# AntiMicroX 本体は絶対にコミットしない。
+# 同梱した時点で GPL v3 の頒布義務 (対応ソースの提供) を負う (AGENTS.md §2.1)。
+*.AppImage
+*.exe
+*.deb
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+*.log

@@ -1,0 +1,32 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=padpilot
+Name[ja]=padpilot (ゲームパッド操作)
+Comment=Control your desktop with a gamepad
+Comment[ja]=ゲームパッドでパソコンを操作する
+GenericName=Gamepad Mapper
+Exec=@EXEC@
+Icon=@ICON@
+Terminal=false
+StartupNotify=false
+# これが無いとドックのアイコンが2つに割れる (docs/original-notes.md §6.5)
+StartupWMClass=antimicrox
+Categories=Utility;
+Keywords=gamepad;controller;dualsense;ps5;ps4;xbox;mouse;
+Actions=Start;Stop;Settings;
+
+[Desktop Action Start]
+Name=Start
+Name[ja]=コントローラーを使えるようにする
+Exec=@EXEC@ start
+
+[Desktop Action Stop]
+Name=Stop
+Name[ja]=コントローラーを止める
+Exec=@EXEC@ stop
+
+[Desktop Action Settings]
+Name=Settings and diagnostics
+Name[ja]=設定・調子を確認する
+Exec=@EXEC@

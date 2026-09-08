@@ -1,0 +1,16 @@
+# DualSense のタッチパッドノードを input グループから読めるようにする。
+#
+# systemd-logind はジョイスティックには ACL を付けるが、
+# タッチパッドノードには付けない。そのため押し込み(BTN_LEFT)を
+# 自前で読むには権限が要る (AGENTS.md §5.4)。
+#
+# 導入:
+#   sudo cp share/99-padpilot-input.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+#   （自分を input グループに入れる。要再ログイン）
+#   sudo usermod -aG input "$USER"
+#
+# 注意: これは「タッチパッド押し込みを別のキーに割り当てたい」場合のみ必要。
+# 標準構成では不要 — タッチパッドは既にマウスとして動作する。
+SUBSYSTEM=="input", ATTRS{name}=="*DualSense*Touchpad*", MODE="0660", GROUP="input"
+SUBSYSTEM=="input", ATTRS{name}=="*Wireless Controller*Touchpad*", MODE="0660", GROUP="input"
