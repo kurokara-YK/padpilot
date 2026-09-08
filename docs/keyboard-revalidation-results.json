@@ -1,0 +1,1347 @@
+[
+  {
+    "trial": "qt_ascii",
+    "artifact_directory": "/tmp/padpilot-probe-ztrzcpuh",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "asd"
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051913
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1509,
+          2317
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "a"
+      },
+      {
+        "step": "hover_s",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1572,
+          2317
+        ]
+      },
+      {
+        "step": "click_s",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as"
+      },
+      {
+        "step": "hover_d",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1635,
+          2317
+        ]
+      },
+      {
+        "step": "click_d",
+        "focus_ok": true,
+        "alive": true,
+        "text": "asd"
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "asd",
+        "passed": true,
+        "exit_code": null
+      },
+      {
+        "step": "send_results",
+        "focus_ok": true,
+        "sent": [
+          [
+            "a",
+            true
+          ],
+          [
+            "s",
+            true
+          ],
+          [
+            "d",
+            true
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "trial": "onboard_xinput",
+    "artifact_directory": "/tmp/padpilot-probe-v5lqre0t",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "asd"
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051911
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1032,
+          749
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": false,
+        "text": ""
+      },
+      {
+        "step": "hover_s",
+        "focus_ok": true,
+        "alive": false,
+        "exit_code": -11,
+        "xy": [
+          1086,
+          749
+        ]
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "",
+        "passed": false,
+        "exit_code": -11
+      }
+    ]
+  },
+  {
+    "trial": "onboard_xinput_gdb",
+    "artifact_directory": "/tmp/padpilot-probe-kfjuwm6v",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "asd"
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051911
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": false,
+        "exit_code": 0,
+        "xy": [
+          1032,
+          749
+        ]
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "",
+        "passed": false,
+        "exit_code": 0,
+        "activations": []
+      }
+    ],
+    "gdb_log": "\nThis GDB supports auto-downloading debuginfo from the following URLs:\n  <https://debuginfod.ubuntu.com>\nEnable debuginfod for this session? (y or [n]) [answered N; input not from terminal]\nDebuginfod has been disabled.\nTo make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.\n[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n[New Thread 0x7ffff45d76c0 (LWP 250589)]\n[New Thread 0x7ffff3dd66c0 (LWP 250590)]\n[New Thread 0x7ffff35d56c0 (LWP 250591)]\n[New Thread 0x7ffff29d16c0 (LWP 250596)]\n[New Thread 0x7ffff0c556c0 (LWP 250597)]\n[New Thread 0x7fffe21ff6c0 (LWP 250598)]\n[Thread 0x7fffe21ff6c0 (LWP 250598) exited]\n\nThread 1 \"python3\" received signal SIGSEGV, Segmentation fault.\n0x0000000000586896 in PyObject_Malloc ()\n#0  0x0000000000586896 in PyObject_Malloc ()\n#1  0x00000000005843b7 in _PyObject_New ()\n#2  0x00007ffff7386d7c in ??? () at /usr/lib/python3/dist-packages/Onboard/osk.cpython-312-x86_64-linux-gnu.so\n#3  0x00007ffff7387274 in ??? () at /usr/lib/python3/dist-packages/Onboard/osk.cpython-312-x86_64-linux-gnu.so\n#4  0x00007ffff61abb80 in ??? () at /lib/x86_64-linux-gnu/libgdk-3.so.0\n#5  0x00007ffff61b3a1e in ??? () at /lib/x86_64-linux-gnu/libgdk-3.so.0\n#6  0x00007ffff61576eb in gdk_display_get_event () at /lib/x86_64-linux-gnu/libgdk-3.so.0\n#7  0x00007ffff61b3e1e in ??? () at /lib/x86_64-linux-gnu/libgdk-3.so.0\n#8  0x00007ffff708a585 in ??? () at /lib/x86_64-linux-gnu/libglib-2.0.so.0\n#9  0x00007ffff70e9977 in ??? () at /lib/x86_64-linux-gnu/libglib-2.0.so.0\n#10 0x00007ffff708af47 in g_main_loop_run () at /lib/x86_64-linux-gnu/libglib-2.0.so.0\n#11 0x00007ffff55febc5 in gtk_main () at /lib/x86_64-linux-gnu/libgtk-3.so.0\n#12 0x00007ffff7359b16 in ??? () at /lib/x86_64-linux-gnu/libffi.so.8\n#13 0x00007ffff73563ef in ??? () at /lib/x86_64-linux-gnu/libffi.so.8\n#14 0x00007ffff73590be in ffi_call () at /lib/x86_64-linux-gnu/libffi.so.8\n#15 0x00007ffff71a6bcb in ??? () at /usr/lib/python3/dist-packages/gi/_gi.cpython-312-x86_64-linux-gnu.so\n#16 0x00007ffff71a511a in ??? () at /usr/lib/python3/dist-packages/gi/_gi.cpython-312-x86_64-linux-gnu.so\n#17 0x000000000054b0ac in PyObject_Call ()\n#18 0x00000000005db13e in _PyEval_EvalFrameDefault ()\n#19 0x000000000054a782 in _PyObject_Call_Prepend ()\n"
+  },
+  {
+    "trial": "onboard_gtk_ascii",
+    "artifact_directory": "/tmp/padpilot-probe-wsqaqo2l",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "asd"
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051911
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1032,
+          749
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "a"
+      },
+      {
+        "step": "hover_s",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1086,
+          749
+        ]
+      },
+      {
+        "step": "click_s",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as"
+      },
+      {
+        "step": "hover_d",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1141,
+          749
+        ]
+      },
+      {
+        "step": "click_d",
+        "focus_ok": true,
+        "alive": true,
+        "text": "asd"
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "asd",
+        "passed": true,
+        "exit_code": null
+      }
+    ]
+  },
+  {
+    "trial": "onboard_gtk_editing",
+    "artifact_directory": "/tmp/padpilot-probe-yarzzoc0",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "asd"
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051911
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1032,
+          749
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "a"
+      },
+      {
+        "step": "hover_s",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1086,
+          749
+        ]
+      },
+      {
+        "step": "click_s",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as"
+      },
+      {
+        "step": "hover_d",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1141,
+          749
+        ]
+      },
+      {
+        "step": "click_d",
+        "focus_ok": true,
+        "alive": true,
+        "text": "asd"
+      },
+      {
+        "step": "hover_BackSpace",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1636,
+          634
+        ]
+      },
+      {
+        "step": "click_BackSpace",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as"
+      },
+      {
+        "step": "hover_space",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1279,
+          864
+        ]
+      },
+      {
+        "step": "click_space",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as "
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1032,
+          749
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as a"
+      },
+      {
+        "step": "hover_Return",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1680,
+          721
+        ]
+      },
+      {
+        "step": "click_Return",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as a"
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "as a",
+        "passed": true,
+        "exit_code": null,
+        "activations": [
+          "as a"
+        ]
+      }
+    ]
+  },
+  {
+    "trial": "onboard_gtk_japanese",
+    "artifact_directory": "/tmp/padpilot-probe-v22sjjjt",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "aiueo"
+      },
+      {
+        "step": "direct_after_IME_on",
+        "focus_ok": true,
+        "text": "あいうえお"
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051911
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1032,
+          749
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": ""
+      },
+      {
+        "step": "hover_i",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1399,
+          692
+        ]
+      },
+      {
+        "step": "click_i",
+        "focus_ok": true,
+        "alive": true,
+        "text": ""
+      },
+      {
+        "step": "hover_space",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1279,
+          864
+        ]
+      },
+      {
+        "step": "click_space",
+        "focus_ok": true,
+        "alive": true,
+        "text": ""
+      },
+      {
+        "step": "hover_Return",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1680,
+          721
+        ]
+      },
+      {
+        "step": "click_Return",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛"
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1032,
+          749
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛"
+      },
+      {
+        "step": "hover_i",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1399,
+          692
+        ]
+      },
+      {
+        "step": "click_i",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛"
+      },
+      {
+        "step": "hover_u",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1345,
+          692
+        ]
+      },
+      {
+        "step": "click_u",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛"
+      },
+      {
+        "step": "hover_e",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1128,
+          692
+        ]
+      },
+      {
+        "step": "click_e",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛"
+      },
+      {
+        "step": "hover_o",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1453,
+          692
+        ]
+      },
+      {
+        "step": "click_o",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛"
+      },
+      {
+        "step": "hover_Return",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1680,
+          721
+        ]
+      },
+      {
+        "step": "click_Return",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛あいうえお"
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "愛あいうえお",
+        "passed": true,
+        "exit_code": null,
+        "activations": [
+          "aiueo"
+        ]
+      }
+    ]
+  },
+  {
+    "trial": "onboard_gtk_autoshow_primary",
+    "artifact_directory": "/tmp/padpilot-probe-y6i7czyb",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "asd"
+      },
+      {
+        "step": "auto_hidden",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "auto_shown",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051911
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1293,
+          2351
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "a"
+      },
+      {
+        "step": "hover_s",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1379,
+          2351
+        ]
+      },
+      {
+        "step": "click_s",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as"
+      },
+      {
+        "step": "hover_d",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1465,
+          2351
+        ]
+      },
+      {
+        "step": "click_d",
+        "focus_ok": true,
+        "alive": true,
+        "text": "asd"
+      },
+      {
+        "step": "hover_BackSpace",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          2248,
+          2271
+        ]
+      },
+      {
+        "step": "click_BackSpace",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as"
+      },
+      {
+        "step": "hover_space",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1683,
+          2431
+        ]
+      },
+      {
+        "step": "click_space",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as "
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1293,
+          2351
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as a"
+      },
+      {
+        "step": "hover_Return",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          2317,
+          2331
+        ]
+      },
+      {
+        "step": "click_Return",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as a"
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "as a",
+        "passed": true,
+        "exit_code": null,
+        "activations": [
+          "as a"
+        ]
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          200,
+          300
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          3600,
+          300
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          1000,
+          1800
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          200,
+          300
+        ],
+        "visible": true,
+        "alive": true
+      }
+    ]
+  },
+  {
+    "trial": "onboard_gtk_autoshow_active",
+    "artifact_directory": "/tmp/padpilot-probe-fws5inm3",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "asd"
+      },
+      {
+        "step": "auto_hidden",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "auto_shown",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "after_external_key",
+        "focus_ok": true,
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051911
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1218,
+          1337
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "a"
+      },
+      {
+        "step": "hover_s",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1304,
+          1337
+        ]
+      },
+      {
+        "step": "click_s",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as"
+      },
+      {
+        "step": "hover_d",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1390,
+          1337
+        ]
+      },
+      {
+        "step": "click_d",
+        "focus_ok": true,
+        "alive": true,
+        "text": "asd"
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "asd",
+        "passed": true,
+        "exit_code": null,
+        "activations": []
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          885,
+          1490
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          3490,
+          50
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          50,
+          50
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          885,
+          1490
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "final",
+        "focus_ok": true,
+        "passed": true
+      }
+    ]
+  },
+  {
+    "trial": "onboard_gtk_tablet_detection",
+    "artifact_directory": "/tmp/padpilot-probe-yv3lwbcy",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "asd"
+      },
+      {
+        "step": "auto_hidden",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "auto_shown",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "after_external_key",
+        "focus_ok": true,
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051911
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1293,
+          2351
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "a"
+      },
+      {
+        "step": "hover_s",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1379,
+          2351
+        ]
+      },
+      {
+        "step": "click_s",
+        "focus_ok": true,
+        "alive": true,
+        "text": "as"
+      },
+      {
+        "step": "hover_d",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1465,
+          2351
+        ]
+      },
+      {
+        "step": "click_d",
+        "focus_ok": true,
+        "alive": true,
+        "text": "asd"
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "asd",
+        "passed": true,
+        "exit_code": null,
+        "activations": []
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          885,
+          1490
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          3490,
+          50
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          50,
+          50
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          885,
+          1490
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "final",
+        "focus_ok": true,
+        "passed": true
+      }
+    ]
+  },
+  {
+    "trial": "hide_on_key_press_interrupted",
+    "artifact_directory": "/tmp/padpilot-probe-xx_s4knd",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "asd"
+      },
+      {
+        "step": "auto_hidden",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "auto_shown",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "after_external_key",
+        "focus_ok": true,
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 109051911
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1293,
+          2351
+        ]
+      },
+      {
+        "step": "pointer_target_mismatch",
+        "focus_ok": true,
+        "pointer_xy": [
+          1071,
+          2190
+        ],
+        "expected_xy": [
+          1293,
+          2351
+        ],
+        "keyboard_visible": true
+      }
+    ],
+    "error.json": {
+      "error": "Pointer is not over the owned keyboard",
+      "child_exit_codes": [
+        null,
+        null
+      ]
+    }
+  },
+  {
+    "trial": "chrome_japanese_autoshow",
+    "artifact_directory": "/tmp/padpilot-probe-mjs2gu1j",
+    "results.json": [
+      {
+        "step": "direct_without_QApplication",
+        "focus_ok": true,
+        "text": "あいうえお"
+      },
+      {
+        "step": "auto_hidden",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "auto_shown",
+        "focus_ok": true,
+        "alive": true
+      },
+      {
+        "step": "after_external_key",
+        "focus_ok": true,
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "shown",
+        "focus_ok": true,
+        "alive": true,
+        "wid": 117440519
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1293,
+          2351
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "あ"
+      },
+      {
+        "step": "hover_i",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1873,
+          2311
+        ]
+      },
+      {
+        "step": "click_i",
+        "focus_ok": true,
+        "alive": true,
+        "text": "あい"
+      },
+      {
+        "step": "hover_space",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1683,
+          2431
+        ]
+      },
+      {
+        "step": "click_space",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛"
+      },
+      {
+        "step": "hover_Return",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          2317,
+          2331
+        ]
+      },
+      {
+        "step": "click_Return",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛"
+      },
+      {
+        "step": "hover_a",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1293,
+          2351
+        ]
+      },
+      {
+        "step": "click_a",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛あ"
+      },
+      {
+        "step": "hover_i",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1873,
+          2311
+        ]
+      },
+      {
+        "step": "click_i",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛あい"
+      },
+      {
+        "step": "hover_u",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1787,
+          2311
+        ]
+      },
+      {
+        "step": "click_u",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛あいう"
+      },
+      {
+        "step": "hover_e",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1444,
+          2311
+        ]
+      },
+      {
+        "step": "click_e",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛あいうえ"
+      },
+      {
+        "step": "hover_o",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          1959,
+          2311
+        ]
+      },
+      {
+        "step": "click_o",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛あいうえお"
+      },
+      {
+        "step": "hover_Return",
+        "focus_ok": true,
+        "alive": true,
+        "exit_code": null,
+        "xy": [
+          2317,
+          2331
+        ]
+      },
+      {
+        "step": "click_Return",
+        "focus_ok": true,
+        "alive": true,
+        "text": "愛あいうえお"
+      },
+      {
+        "step": "result",
+        "focus_ok": true,
+        "text": "愛あいうえお",
+        "passed": true,
+        "exit_code": null,
+        "activations": []
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          885,
+          1490
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          3490,
+          50
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          50,
+          50
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "monitor_crossing",
+        "focus_ok": true,
+        "xy": [
+          885,
+          1490
+        ],
+        "visible": true,
+        "alive": true
+      },
+      {
+        "step": "final",
+        "focus_ok": true,
+        "passed": true
+      }
+    ]
+  }
+]

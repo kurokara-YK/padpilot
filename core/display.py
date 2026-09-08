@@ -1,8 +1,7 @@
 """画面（モニタ）の検出と、画面キーボードの表示先の設定。
 
-複数モニタ環境で onboard の docking-monitor が 'active' だと、
-カーソルが別モニタへ移った瞬間にキーボードが消える (AGENTS.md §5.2)。
-表示先を固定して回避する。
+表示先を固定するとキーの位置を覚えて操作できる。
+'active' で消えるという旧判断は GTK 入力で再現せず (AGENTS.md §6.2.10)。
 """
 from __future__ import annotations
 
@@ -72,7 +71,7 @@ def keyboard_monitor() -> str:
 def set_keyboard_monitor(value: str) -> bool:
     """画面キーボードの表示先を設定する。
 
-    'active' は使わない。カーソルが別モニタへ移った瞬間に消えるため。
+    'primary'、'monitorN'、'active' は onboard の設定値。
     """
     if not shutil.which("gsettings"):
         return False

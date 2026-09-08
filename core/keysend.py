@@ -1,7 +1,8 @@
 """キー送出。OS ごとの違いをここに閉じ込める (AGENTS.md §7.2)。
 
-Linux は XTest、Windows は SendInput。どちらも「今フォーカスがある
-ウィンドウ」へキーを送る。IME も通る (§5.5 で実測)。
+自作キーボードの実験用。本採用は保留 (AGENTS.md §6.2.10)。
+Linux は XTest、Windows は未検証の keybd_event 実装。
+Linux の IME 経由の送出と、自作 GUI 全体の対応範囲は区別する。
 """
 from __future__ import annotations
 

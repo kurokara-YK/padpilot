@@ -60,14 +60,19 @@ def _enable_a11y() -> None:
     # (AGENTS.md §5.2 B の実測)。
     _gsettings_set("org.gnome.desktop.interface", "toolkit-accessibility", "true")
     _gsettings_set("org.onboard.auto-show", "enabled", "true")
-    # これが true だとコントローラー操作で即座に隠れる (§5.2)
+    # キー入力中も表示を維持する、検証済みの既定設定 (§6.2.10)。
     _gsettings_set("org.onboard.auto-show", "hide-on-key-press", "false")
-    # acpid が無いと tablet_mode=None になり、数秒で引っ込む (§5.2)
+    # タブレットの判定に依存せず表示する、検証済みの既定設定 (§6.2.10)。
     _gsettings_set("org.onboard.auto-show",
                    "tablet-mode-detection-enabled", "false")
-    # 複数モニタで 'active' だとカーソル移動で消える (§5.2)
-    if _gsettings_get("org.onboard.window", "docking-monitor") == "'active'":
-        _gsettings_set("org.onboard.window", "docking-monitor", "primary")
+    # 表示先は利用者の選択を保つ。GTK では active でも入力が成立した。
+
+
+def _use_gtk_input() -> None:
+    """onboard の XInput 受信経路のクラッシュを回避する (§6.2.10)。"""
+    subprocess.run(["gsettings", "set", "org.onboard.keyboard",
+                    "input-event-source", "GTK"],
+                   capture_output=True, timeout=5, check=True)
 
 
 def check() -> list[Problem]:
@@ -154,28 +159,31 @@ def check() -> list[Problem]:
                 detail="sudo apt install onboard で導入してください。",
             ))
         else:
+            source = _gsettings_get("org.onboard.keyboard", "input-event-source")
+            if source == "'XInput'":
+                problems.append(Problem(
+                    id="onboard_xinput", severity=WARNING,
+                    message="画面キーボードが操作時に落ちる可能性のある設定です",
+                    detail=("この環境では XInput 方式でのクラッシュを確認しています。\n"
+                            "ポインタ入力を GTK 方式に切り替えて回避します。\n"
+                            "変更後は画面キーボードを閉じて、もう一度開いてください。"),
+                    fix=_use_gtk_input,
+                ))
             a11y = _gsettings_get("org.gnome.desktop.interface",
                                   "toolkit-accessibility")
             auto = _gsettings_get("org.onboard.auto-show", "enabled")
             hide = _gsettings_get("org.onboard.auto-show", "hide-on-key-press")
             tablet = _gsettings_get("org.onboard.auto-show",
                                     "tablet-mode-detection-enabled")
-            dock = _gsettings_get("org.onboard.window", "docking-monitor")
             if (a11y == "false" or auto == "false"
-                    or hide == "true" or tablet == "true"
-                    or dock == "'active'"):
+                    or hide == "true" or tablet == "true"):
                 problems.append(Problem(
                     id="a11y_disabled", severity=WARNING,
-                    message="画面キーボードが自動で出ない設定です",
-                    detail=("入力欄をクリックしても画面キーボードが出ない、"
-                            "または出てもすぐ消える状態です。\n"
-                            "コントローラーの操作はキー入力として送られるため、"
-                            "hide-on-key-press が有効だと即座に隠れます。\n"
-                            "また、タブレットモード検出が有効だと、"
-                            "判定できず数秒で引っ込みます。\n"
-                            "画面が複数ある場合、表示先が「動いている画面」"
-                            "になっていると、カーソルを別の画面へ動かした"
-                            "だけで消えてしまいます。"),
+                    message="画面キーボードの表示設定を確認してください",
+                    detail=("padpilot で検証した表示設定と異なります。\n"
+                            "支援技術と入力欄への自動表示を有効にし、"
+                            "キー入力時の非表示とタブレット判定を無効にします。\n"
+                            "現在の設定で必ず不具合が起こるという意味ではありません。"),
                     fix=_enable_a11y,
                 ))
 

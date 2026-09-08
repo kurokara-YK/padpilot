@@ -374,8 +374,7 @@ class KeyboardTab(QWidget):
         lay.addSpacing(6)
 
         warn = _lbl(
-            "「動いている画面」に設定すると、カーソルを別の画面へ動かした\n"
-            "だけでキーボードが消えてしまいます。固定することをおすすめします。",
+            "表示先を固定すると、毎回同じ画面でキーボードを操作できます。",
             "Subtitle")
         lay.addWidget(warn)
         lay.addSpacing(16)
@@ -410,7 +409,7 @@ class KeyboardTab(QWidget):
         if idx >= 0:
             self.mon.setCurrentIndex(idx)
         elif cur == "active":
-            self.mon.insertItem(0, "動いている画面（消えることがあります）",
+            self.mon.insertItem(0, "動いている画面",
                                 "active")
             self.mon.setCurrentIndex(0)
 

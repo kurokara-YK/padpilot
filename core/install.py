@@ -163,20 +163,19 @@ def enable_onscreen_keyboard(progress: Progress | None = None) -> bool:
         return False
     ok = True
     for schema, key, val in [
+        # Codex 再検証: XInput 経路は SIGSEGV、GTK 経路は実クリックで成立。
+        # キー送出の XTest は変えず、ポインタの受信方式だけ切り替える。
+        # AGENTS.md §6.2.10 / docs/keyboard-revalidation.md
+        ("org.onboard.keyboard", "input-event-source", "GTK"),
         ("org.gnome.desktop.interface", "toolkit-accessibility", "true"),
         ("org.onboard.auto-show", "enabled", "true"),
-        # コントローラーのボタンは AntiMicroX が「キー入力」として送るため、
-        # hide-on-key-press が有効だと出た瞬間に隠れてしまう
-        # (体感 1 秒で消える)。この構成では必ず無効にする。
+        # キー入力中も表示を維持する既定設定。旧環境の非表示記録と
+        # GTK 入力での再検証を区別する (AGENTS.md §6.2.10)。
         ("org.onboard.auto-show", "hide-on-key-press", "false"),
-        # タブレットモード検出は acpid が要る。ノート PC やデスクトップでは
-        # 判定できず tablet_mode=None となり、onboard が
-        # 「出してよいか分からない」状態になって数秒で引っ込む。
-        # 検出を切ると常に表示してよいと判断する。
+        # タブレットの判定に依存せず表示する、検証済みの既定設定。
         ("org.onboard.auto-show", "tablet-mode-detection-enabled", "false"),
-        # 複数モニタで 'active' だと、カーソルが別モニタへ移った瞬間に
-        # キーボードが消える (実測: 1.5 秒後に消え、戻しても復帰しない)。
-        # 表示先を固定して回避する (AGENTS.md §5.2)。
+        # 導入時は主画面に固定。GTK 入力では active でも成立したが、
+        # 操作位置が一定になるよう初期値は primary を維持する。
         ("org.onboard.window", "docking-monitor", "primary"),
     ]:
         r = subprocess.run(["gsettings", "set", schema, key, val],
@@ -403,6 +402,8 @@ def _restore_onscreen_keyboard(progress: Progress | None = None) -> None:
     """
     if not paths.IS_LINUX or not shutil.which("gsettings"):
         return
+    subprocess.run(["gsettings", "reset", "org.onboard.keyboard",
+                    "input-event-source"], capture_output=True, timeout=5)
     for key in ("enabled", "hide-on-key-press",
                 "tablet-mode-detection-enabled"):
         subprocess.run(["gsettings", "reset", "org.onboard.auto-show", key],
