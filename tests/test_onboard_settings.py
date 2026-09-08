@@ -11,7 +11,7 @@ class OnboardSettingsTests(unittest.TestCase):
         settings = {
             'input-event-source': source,
             'toolkit-accessibility': 'true',
-            'enabled': 'true',
+            'enabled': 'false',
             'hide-on-key-press': 'false',
             'tablet-mode-detection-enabled': 'false',
             'docking-monitor': monitor,

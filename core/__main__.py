@@ -11,6 +11,8 @@
             [--keep-legacy]  旧構成を残す
   verify              導入が正しいか確認
   start / gui / stop  起動・GUI表示・終了
+  osk-listen          タッチパッド押し込みの待ち受けを前面で実行（確認用）
+  osk-toggle          画面キーボードを今すぐ開閉する
 """
 from __future__ import annotations
 
@@ -103,6 +105,14 @@ def main(argv: list[str] | None = None) -> int:
     if cmd == "stop":
         runner.stop()
         print("停止しました")
+        return 0
+    if cmd == "osk-listen":
+        # タッチパッド押し込みの待ち受け。前面で動かす（動作確認用）
+        from . import osktoggle
+        return osktoggle.run(verbose=True)
+    if cmd == "osk-toggle":
+        from . import osktoggle
+        print("切り替えました" if osktoggle.toggle() else "切り替えできません")
         return 0
 
     print(__doc__)

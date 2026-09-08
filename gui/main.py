@@ -12,14 +12,15 @@ from PySide6.QtCore import QThread, QTimer, Signal
 from PySide6.QtWidgets import (
     QAbstractItemView, QApplication, QComboBox, QDialog, QFrame, QHBoxLayout,
     QHeaderView, QLabel, QMainWindow, QMessageBox, QPushButton, QSpinBox,
-    QStackedWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout,
+    QStackedWidget, QTableWidget, QTableWidgetItem,
+    QTextEdit, QVBoxLayout,
     QWidget,
 )
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from gui.widgets import NoScrollComboBox  # noqa: E402
-from core import (detect, display, doctor, install, paths,  # noqa: E402
-                  profile as profile_mod, runner)
+from core import (detect, display, doctor, install, osktoggle,  # noqa: E402
+                  paths, profile as profile_mod, runner)
 
 
 def _card(*widgets) -> QFrame:
@@ -381,9 +382,11 @@ class KeyboardTab(QWidget):
 
         lay.addWidget(_lbl("使いかた", "Section"))
         lay.addWidget(_card(_lbl(
-            "出すとき   … 文字を入れたい欄をクリックする\n\n"
-            "閉じるとき … 入力欄以外の場所をクリックする\n"
-            "             または、キーボード右上の × を押す")))
+            "出すとき   … コントローラーのタッチパッドを押し込む\n\n"
+            "閉じるとき … もう一度タッチパッドを押し込む\n"
+            "             または、キーボード右上の × を押す\n\n"
+            "※ 入力欄をクリックしただけでは出ません。\n"
+            "   ターミナルなどで勝手に出ないようにするためです。")))
         lay.addStretch()
 
         row2 = QHBoxLayout()
@@ -415,18 +418,17 @@ class KeyboardTab(QWidget):
 
     def _save(self) -> None:
         value = self.mon.currentData()
-        if display.set_keyboard_monitor(value):
-            self.note.setText("保存しました。")
-        else:
-            self.note.setText("保存できませんでした。")
+        ok = display.set_keyboard_monitor(value)
+        self.note.setText("保存しました。" if ok else "保存できませんでした。")
         self.reload()
 
     def _test(self) -> None:
         import subprocess
         try:
-            subprocess.Popen(["onboard"], start_new_session=True)
+            if not osktoggle.toggle():
+                subprocess.Popen(["onboard"], start_new_session=True)
             self.note.setText(
-                "キーボードを出しました。閉じるには右上の × を押してください。")
+                "切り替えました。タッチパッド押し込みでも開閉できます。")
         except OSError:
             self.note.setText("onboard が見つかりません。")
 

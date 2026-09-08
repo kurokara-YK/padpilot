@@ -168,11 +168,16 @@ def enable_onscreen_keyboard(progress: Progress | None = None) -> bool:
         # AGENTS.md §6.2.10 / docs/keyboard-revalidation.md
         ("org.onboard.keyboard", "input-event-source", "GTK"),
         ("org.gnome.desktop.interface", "toolkit-accessibility", "true"),
-        ("org.onboard.auto-show", "enabled", "true"),
-        # キー入力中も表示を維持する既定設定。旧環境の非表示記録と
-        # GTK 入力での再検証を区別する (AGENTS.md §6.2.10)。
+        # 自動表示は使わない。入力欄にフォーカスが入るたびに出る仕組みで、
+        # アプリを区別できないため、ターミナルを開いただけでも出てしまう。
+        # 出す操作はタッチパッド押し込みに限定する (core/osktoggle.py)。
+        ("org.onboard.auto-show", "enabled", "false"),
+        # 自動表示を切ると onboard は出しっぱなしになるため、
+        # 最小化して起動させる。出すのはタッチパッド押し込みのときだけ。
+        ("org.onboard", "start-minimized", "true"),
+        # キー入力中も表示を維持する。
         ("org.onboard.auto-show", "hide-on-key-press", "false"),
-        # タブレットの判定に依存せず表示する、検証済みの既定設定。
+        # タブレットの判定に依存しない。
         ("org.onboard.auto-show", "tablet-mode-detection-enabled", "false"),
         # 導入時は主画面に固定。GTK 入力では active でも成立したが、
         # 操作位置が一定になるよう初期値は primary を維持する。
@@ -182,7 +187,7 @@ def enable_onscreen_keyboard(progress: Progress | None = None) -> bool:
                            capture_output=True, timeout=5)
         if r.returncode != 0:
             ok = False
-    _log(progress, "画面キーボードの自動表示を有効にしました"
+    _log(progress, "画面キーボードを設定しました（タッチパッド押し込みで開閉）"
          if ok else "画面キーボードの設定に失敗しました (onboard 未導入?)")
     return ok
 
@@ -402,6 +407,8 @@ def _restore_onscreen_keyboard(progress: Progress | None = None) -> None:
     """
     if not paths.IS_LINUX or not shutil.which("gsettings"):
         return
+    subprocess.run(["gsettings", "reset", "org.onboard",
+                    "start-minimized"], capture_output=True, timeout=5)
     subprocess.run(["gsettings", "reset", "org.onboard.keyboard",
                     "input-event-source"], capture_output=True, timeout=5)
     for key in ("enabled", "hide-on-key-press",

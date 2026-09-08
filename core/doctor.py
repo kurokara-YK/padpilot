@@ -59,7 +59,8 @@ def _enable_a11y() -> None:
     # 両方必要。toolkit-accessibility が false だと auto-show は動かない
     # (AGENTS.md §5.2 B の実測)。
     _gsettings_set("org.gnome.desktop.interface", "toolkit-accessibility", "true")
-    _gsettings_set("org.onboard.auto-show", "enabled", "true")
+    # 自動表示は使わない（ターミナルでも出てしまうため）
+    _gsettings_set("org.onboard.auto-show", "enabled", "false")
     # キー入力中も表示を維持する、検証済みの既定設定 (§6.2.10)。
     _gsettings_set("org.onboard.auto-show", "hide-on-key-press", "false")
     # タブレットの判定に依存せず表示する、検証済みの既定設定 (§6.2.10)。
@@ -172,10 +173,11 @@ def check() -> list[Problem]:
             a11y = _gsettings_get("org.gnome.desktop.interface",
                                   "toolkit-accessibility")
             auto = _gsettings_get("org.onboard.auto-show", "enabled")
+            # 自動表示が有効だと、ターミナルを開いただけで出てしまう
             hide = _gsettings_get("org.onboard.auto-show", "hide-on-key-press")
             tablet = _gsettings_get("org.onboard.auto-show",
                                     "tablet-mode-detection-enabled")
-            if (a11y == "false" or auto == "false"
+            if (a11y == "false" or auto == "true"
                     or hide == "true" or tablet == "true"):
                 problems.append(Problem(
                     id="a11y_disabled", severity=WARNING,

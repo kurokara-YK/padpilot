@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import os
 import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -97,6 +98,8 @@ def _clean_socket() -> None:
 def start(hidden: bool = True) -> bool:
     """起動する。すでに動いていれば何もしない。"""
     if is_running():
+        # 既に動いていても、抑制の監視だけは確実に立ち上げる
+        start_osk_toggle()
         return True
     profile = paths.profile_path()
     if not profile.exists():
@@ -123,11 +126,42 @@ def start(hidden: bool = True) -> bool:
             start_new_session=True,   # setsid 相当。端末を閉じても残す (§6.7)
         )
     time.sleep(2)
+    start_osk_toggle()
     return is_running()
+
+
+def start_osk_toggle() -> None:
+    """タッチパッド押し込みでキーボードを開閉する待ち受けを始める。
+
+    押し込みは AntiMicroX に届かないため (AGENTS.md §5.2)、
+    XInput2 でタッチパッドのデバイスから直接受け取る (core/osktoggle.py)。
+    """
+    if not paths.IS_LINUX:
+        return
+    from . import osktoggle
+    if osktoggle.is_running():
+        return
+    try:
+        subprocess.Popen(
+            [sys.executable, "-m", "core.osktoggle"],
+            cwd=str(paths.repo_root()),
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            start_new_session=True,
+        )
+    except OSError:
+        pass
+
+
+def stop_osk_toggle() -> None:
+    if not paths.IS_LINUX:
+        return
+    from . import osktoggle
+    osktoggle.stop()
 
 
 def stop() -> None:
     """終了させる。"""
+    stop_osk_toggle()
     pids = antimicrox_pids()
     for pid in pids:
         try:
