@@ -8,7 +8,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from PySide6.QtCore import QThread, QTimer, Signal
+from PySide6.QtCore import Qt, QThread, QTimer, Signal
 from PySide6.QtWidgets import (
     QAbstractItemView, QApplication, QComboBox, QDialog, QFrame, QHBoxLayout,
     QHeaderView, QLabel, QMainWindow, QMessageBox, QPushButton, QSpinBox,
@@ -285,6 +285,19 @@ class BindingsTab(QWidget):
                 lambda _i, c=cb, prev=val: self._maybe_custom(c, prev))
             self.table.setCellWidget(r, 1, cb)
             self.combos[idx] = cb
+
+        # スティックや L2/R2 など、変更できない操作も一覧に出す。
+        # 何がどう割り当てられているかを一箇所で見られるようにする。
+        fixed = profile_mod.FIXED_ROWS
+        base = len(buttons)
+        self.table.setRowCount(base + len(fixed))
+        for r, (label, action) in enumerate(fixed):
+            it = QTableWidgetItem(label)
+            it.setFlags(Qt.ItemIsEnabled)
+            self.table.setItem(base + r, 0, it)
+            av = QTableWidgetItem(action + "（変更できません）")
+            av.setFlags(Qt.ItemIsEnabled)
+            self.table.setItem(base + r, 1, av)
 
         m, w = profile_mod.get_speeds(si, target)
         self.mouse_sp.setValue(m or 60)

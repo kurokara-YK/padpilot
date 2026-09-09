@@ -1346,6 +1346,152 @@ start 直後        → onboard 稼働 / キーボード「無し」（出しっ
 `tests/test_osktoggle.py` を追加。Codex の `test_onboard_settings.py` は
 自動表示 ON 前提だったため、方針変更に合わせて期待値を更新した。
 
+### 6.2.12 ボタン番号の対応表が 2 つずれていた (2026-09-09 修正)
+
+**`core/profile.py` の `BUTTON_NAMES` が間違っていた。私の実装ミス。**
+
+jstest で実機の並びを確認した結果:
+
+```
+BtnA BtnB BtnX BtnY BtnTL BtnTR BtnTL2 BtnTR2
+BtnSelect BtnStart BtnMode BtnThumbL BtnThumbR
+```
+
+**L2/R2 (BtnTL2/BtnTR2) を数え落としていたため、index 7 以降が 2 つずれていた。**
+さらに L3/R3 (12, 13) が表に無かった。
+
+| index | 正しい | 誤っていた表記 |
+|---|---|---|
+| 7 | **L2** | SHARE |
+| 8 | **R2** | OPTIONS |
+| 9 | **CREATE** | PS ボタン |
+| 10 | **OPTIONS** | L3 |
+| 11 | **PS ボタン** | R3 |
+| 12 / 13 | **L3 / R3** | （欠落） |
+
+§5.3.1 で「README の記述と食い違う。実体が正しい」と書いたが、
+**食い違っていたのは私の対応表の方だった。** README は概ね正しかった。
+
+#### 実害
+
+- **Shift が効かない**: Shift は index 8 = **R2** に載っていた。
+  R2 はトリガーとして速度切り替えにも使うため、押すと
+  「Shift」と「高速モードへ切替」が同時に起きて挙動が読めなかった
+- 同様に index 7 = **L2** に Alt+Tab が載り、低速モードと二重に効いていた
+- **L3/R3 は未割り当てのまま**だった（表に無いので編集画面にも出なかった）
+
+#### 直したこと
+
+- `BUTTON_NAMES` を実機の並びに合わせ、12/13 を追加
+- `editable_buttons()` から **L2/R2 (7,8) を除外**。
+  速度切り替えと兼用させると分かりにくいため、割り当ても外した
+- 既定を組み直した:
+
+| ボタン | 割り当て | 理由 |
+|---|---|---|
+| L3 | **Shift** | × が Enter なので **L3+× で Shift+Enter（改行）** |
+| R3 | **右クリック** | 押し込み＝右クリックという一般的な期待 |
+| OPTIONS | **Windows キー** | 利用者の要望 |
+| CREATE | Alt+Tab | 右クリックを R3 へ譲った分 |
+| R1 | Backspace | PrintScreen より使用頻度が高い |
+| L2/R2 | なし | 速度切り替え専用 |
+
+- **名前に位置を書いた。** 「CREATE」「OPTIONS」は刻印が無く見分けにくいので、
+  `CREATE（タッチパッドの左）` `OPTIONS（タッチパッドの右・≡）` と表示する
+
+原本は `profiles/desktop.amgp.bak-20260909` に退避 (md5 `bd328e09...`)。
+
+### 6.2.12 ボタン番号は SDL GameController 順 — 対応表を確定 (2026-09-09)
+
+> **この表を書き換えないこと。実測と利用者のメモで確定している。**
+
+**AntiMicroX のボタン番号は SDL の GameController 順。**
+`jstest` が表示する生のジョイスティック順とは**並びが違う**。
+
+| index | ボタン | SDL 名 |
+|---|---|---|
+| 1 | × | A |
+| 2 | ○ | B |
+| 3 | □ | X |
+| 4 | △ | Y |
+| 5 | **CREATE**（タッチパッドの左） | Back |
+| 6 | **PS ボタン**（真ん中） | Guide |
+| 7 | **OPTIONS**（タッチパッドの右・≡） | Start |
+| 8 | **L3**（左スティック押し込み） | LeftStick |
+| 9 | **R3**（右スティック押し込み） | RightStick |
+| 10 | **L1** | LeftShoulder |
+| 11 | **R1** | RightShoulder |
+| 21 | タッチパッド押し込み | （AntiMicroX には届かない、§5.2） |
+
+**L2/R2 はボタンではない。** `<trigger index="5">` / `<trigger index="6">` で、
+セット切り替え（速度変更）に使う。だからボタンは 11 個しかない。
+
+#### 根拠
+
+`docs/original-notes.md` §7.1（利用者の実測メモ）と原本 `.amgp` の突き合わせで
+**11 項目すべてが一致**した。
+
+```
+index 5 = Esc         ← メモ「SHARE = Esc」
+index 6 = PrintScreen ← メモ「PS ボタン = Print」
+index 7 = Alt+Tab     ← メモ「OPTIONS = Alt+Tab」
+index 8 = Shift       ← メモ「L3 押し込み = Shift」
+index 9 = 右クリック   ← メモ「R3 押し込み = 右クリック」
+index 10 = Backspace  ← メモ「L1 = Backspace」
+index 11 = Delete     ← メモ「R1 = Delete」
+```
+
+#### 私がやった事故
+
+`jstest` の出力（`BtnA BtnB BtnX BtnY BtnTL BtnTR BtnTL2 BtnTR2 BtnSelect
+BtnStart BtnMode BtnThumbL BtnThumbR`）を AntiMicroX の番号だと思い込み、
+**対応表を書き換えたうえ、利用者の設定まで勝手に書き換えて壊した。**
+
+- §5.3.1 で「README と実体が食い違う。実体が正しい」と書いたが、
+  **食い違っていたのは私の対応表。README（利用者のメモ）が正しかった。**
+- PS ボタンの PrintScreen を消し、L2/R2 を一覧から外し、R1 を勝手に変更した
+
+**教訓**:
+
+1. **利用者が作った設定を、要望されていないのに変えない。**
+   直すよう言われたのは Shift / L3 / R3 / OPTIONS の 4 点だけだった
+2. **推測で対応表を「修正」しない。** `docs/original-notes.md` という
+   一次情報が最初からあった。そちらを先に読むべきだった
+3. 変更前に必ず退避する（今回は `profiles/desktop.amgp.bak-20260909` があり復元できた）
+
+#### 既定は元フォルダの原本そのもの（2026-09-09 確定）
+
+**`~/PS5コントローラー操作_(パッケージにしよう)/ps5_desktop.gamecontroller_2_2.amgp`
+（md5 `bd328e09...`）が正解。これを初期設定とする。**
+
+利用者から「これが正解。これを初期設定に」と明示された。
+`profiles/desktop.amgp` はこれと **1 バイトも違ってはいけない**。
+
+| PS5 操作 | 割り当て | index |
+|---|---|---|
+| × | Enter | 1 |
+| ○ | 左クリック | 2 |
+| □ | Ctrl + C | 3 |
+| △ | Ctrl + V | 4 |
+| SHARE | Esc | 5 |
+| PS ボタン | Print Screen | 6 |
+| OPTIONS | Alt + Tab | 7 |
+| L3 押し込み | Shift | 8 |
+| R3 押し込み | 右クリック | 9 |
+| L1 | Backspace | 10 |
+| R1 | Delete | 11 |
+| 左スティック | カーソル移動 | — |
+| 右スティック | スクロール | — |
+| 十字キー | 矢印キー | — |
+| L2 / R2 | 速度切り替え | trigger 5 / 6 |
+| タッチパッド押し込み | 画面キーボード開閉 | 21（core/osktoggle.py が担当） |
+
+**この表を勝手に変えない。** 変更は利用者の明示的な指示があるときだけ。
+変更する前に必ず退避する。
+
+GUI には**変更できない項目（スティック・十字キー・L2/R2・タッチパッド）も
+一覧に出す**。何がどう割り当たっているかを一箇所で見られるようにするため。
+
 ### 6.2.2 リファクタリングとデバッグ (2026-09-09)
 
 #### 静的解析

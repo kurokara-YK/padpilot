@@ -59,12 +59,36 @@ def _mouse_name(code: str) -> str:
 # DualSense の物理ボタン名。SDL の GameController 抽象での index。
 # 機種が変わっても index は同じで、刻印だけが違う (AGENTS.md §1.1)。
 BUTTON_NAMES = {
-    1: "×ボタン", 2: "○ボタン", 3: "□ボタン", 4: "△ボタン",
-    5: "L1", 6: "R1", 7: "SHARE", 8: "OPTIONS",
-    9: "PS ボタン", 10: "L3 (左スティック押し込み)",
-    11: "R3 (右スティック押し込み)",
+    # AntiMicroX は SDL の GameController 順で番号を振る。
+    # jstest が表示する生のジョイスティック順とは並びが違う。
+    #   1=A 2=B 3=X 4=Y 5=Back 6=Guide 7=Start
+    #   8=LeftStick 9=RightStick 10=LeftShoulder 11=RightShoulder
+    # docs/original-notes.md §7.1（利用者の実測メモ）と原本の突き合わせで確定。
+    # L2/R2 はボタンではなくトリガー（<trigger> 5/6）なので、ここには無い。
+    1: "×ボタン",
+    2: "○ボタン",
+    3: "□ボタン",
+    4: "△ボタン",
+    5: "SHARE（タッチパッドの左）",
+    6: "PS ボタン（真ん中）",
+    7: "OPTIONS（タッチパッドの右・≡）",
+    8: "L3（左スティック押し込み）",
+    9: "R3（右スティック押し込み）",
+    10: "L1（左上の前ボタン）",
+    11: "R1（右上の前ボタン）",
     21: "タッチパッド押し込み",
 }
+
+# ボタンではないが一覧に出すもの。割り当ては固定。
+FIXED_ROWS = [
+    ("左スティック", "マウスカーソル移動"),
+    ("右スティック", "スクロール（縦横）"),
+    ("十字キー", "矢印キー"),
+    ("L2（左の引き金）", "カーソル速度を下げる"),
+    ("R2（右の引き金）", "カーソル速度を上げる"),
+    ("タッチパッドをなぞる", "マウスカーソル移動"),
+    ("タッチパッド押し込み", "画面キーボードを開く／閉じる"),
+]
 
 
 def _fmt_slot(slot: ET.Element) -> str:
@@ -338,11 +362,12 @@ def apply_bindings(changes: dict[int, str], src: Path, dst: Path) -> None:
 def editable_buttons() -> list[tuple[int, str]]:
     """GUI で編集させるボタン。
 
+    AntiMicroX が扱う 11 ボタンすべてを出す。
     タッチパッド押し込み (21) は AntiMicroX に届かないので出さない
-    (AGENTS.md §5.2)。
+    (AGENTS.md §5.2)。カーネルが左クリックとして扱い、
+    画面キーボードの開閉は core/osktoggle.py が担当する。
     """
-    return [(i, BUTTON_NAMES[i]) for i in
-            (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
+    return [(i, BUTTON_NAMES[i]) for i in range(1, 12)]
 
 
 def make_combo(keys: list[str]) -> str | None:
